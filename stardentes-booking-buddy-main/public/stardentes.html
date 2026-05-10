@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>StarDentes — Clínica Odontológica</title>
+<style>
+  :root {
+    --blue-900: #0a2540;
+    --blue-700: #0b5fae;
+    --blue-500: #1e88ff;
+    --blue-300: #7cc1ff;
+    --blue-50: #eaf4ff;
+    --white: #ffffff;
+    --text: #0a2540;
+    --muted: #5b6b80;
+    --shadow: 0 10px 30px rgba(10,37,64,0.08);
+    --radius: 14px;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: var(--text);
+    background: linear-gradient(180deg, #f6fbff 0%, #ffffff 100%);
+    line-height: 1.6;
+  }
+  a { color: var(--blue-700); text-decoration: none; }
+
+  /* NAV */
+  .nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: saturate(180%) blur(12px);
+    border-bottom: 1px solid #e6eef9;
+  }
+  .nav-inner {
+    max-width: 1100px; margin: 0 auto; padding: 14px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .logo { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1.25rem; color: var(--blue-900); }
+  .logo-mark {
+    width: 36px; height: 36px; border-radius: 10px;
+    background: linear-gradient(135deg, var(--blue-500), var(--blue-700));
+    display: grid; place-items: center; color: white; font-weight: 900;
+    box-shadow: var(--shadow);
+  }
+  .nav-links { display: flex; gap: 22px; }
+  .nav-links a { color: var(--blue-900); font-weight: 500; }
+  .nav-links a:hover { color: var(--blue-700); }
+  .btn {
+    display: inline-block; cursor: pointer;
+    padding: 12px 22px; border-radius: 999px; border: none;
+    font-weight: 700; font-size: 0.95rem; transition: all .2s ease;
+    font-family: inherit;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--blue-500), var(--blue-700));
+    color: var(--white); box-shadow: 0 8px 20px rgba(11,95,174,0.25);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 26px rgba(11,95,174,0.35); }
+  .btn-ghost { background: transparent; color: var(--blue-700); border: 2px solid var(--blue-300); }
+  .btn-ghost:hover { background: var(--blue-50); }
+
+  /* HERO */
+  .hero {
+    max-width: 1100px; margin: 0 auto; padding: 70px 24px 50px;
+    display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 40px; align-items: center;
+  }
+  .hero h1 { font-size: clamp(2rem, 4.5vw, 3.4rem); line-height: 1.1; margin: 0 0 18px; color: var(--blue-900); letter-spacing: -0.02em;}
+  .hero h1 span {
+    background: linear-gradient(135deg, var(--blue-500), var(--blue-700));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .hero p { font-size: 1.1rem; color: var(--muted); margin: 0 0 28px; max-width: 520px; }
+  .hero-cta { display: flex; gap: 12px; flex-wrap: wrap; }
+  .hero-art {
+    aspect-ratio: 1/1; border-radius: 28px;
+    background:
+      radial-gradient(circle at 30% 30%, rgba(255,255,255,0.6), transparent 60%),
+      linear-gradient(135deg, var(--blue-300), var(--blue-700));
+    box-shadow: var(--shadow);
+    display: grid; place-items: center; color: white; position: relative; overflow: hidden;
+  }
+  .tooth { font-size: 9rem; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.2)); }
+
+  /* SECTIONS */
+  section { max-width: 1100px; margin: 0 auto; padding: 60px 24px; }
+  .section-title { text-align: center; margin: 0 0 10px; font-size: 2rem; color: var(--blue-900); letter-spacing: -0.01em;}
+  .section-sub { text-align: center; color: var(--muted); margin: 0 auto 40px; max-width: 600px; }
+
+  /* SERVICES */
+  .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+  .service-card {
+    background: var(--white); border-radius: var(--radius); padding: 28px;
+    border: 1px solid #e6eef9; box-shadow: var(--shadow);
+    transition: transform .2s ease, box-shadow .2s ease;
+  }
+  .service-card:hover { transform: translateY(-4px); box-shadow: 0 18px 40px rgba(10,37,64,0.12); }
+  .service-icon {
+    width: 50px; height: 50px; border-radius: 12px;
+    background: var(--blue-50); color: var(--blue-700);
+    display: grid; place-items: center; font-size: 1.6rem; margin-bottom: 14px;
+  }
+  .service-card h3 { margin: 0 0 8px; color: var(--blue-900); }
+  .service-card p { margin: 0; color: var(--muted); font-size: 0.95rem; }
+
+  /* BOOKING */
+  .booking-wrap {
+    background: var(--white); border-radius: 20px; padding: 36px;
+    box-shadow: var(--shadow); border: 1px solid #e6eef9;
+  }
+  .booking-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 28px; }
+  .field { margin-bottom: 14px; }
+  .field label { display: block; font-weight: 600; margin-bottom: 6px; color: var(--blue-900); font-size: 0.9rem;}
+  .field input {
+    width: 100%; padding: 12px 14px; border-radius: 10px;
+    border: 1.5px solid #d4e2f5; font-size: 1rem; font-family: inherit;
+    transition: border-color .2s, box-shadow .2s; background: #f9fcff;
+  }
+  .field input:focus {
+    outline: none; border-color: var(--blue-500);
+    box-shadow: 0 0 0 4px rgba(30,136,255,0.15); background: white;
+  }
+  .panel-label { font-weight: 600; margin-bottom: 10px; color: var(--blue-900); font-size: 0.9rem;}
+
+  /* CALENDAR */
+  .calendar {
+    background: #f9fcff; border: 1px solid #e1ecfa; border-radius: 14px;
+    padding: 16px; margin-bottom: 18px;
+  }
+  .cal-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 12px;
+  }
+  .cal-title { font-weight: 700; color: var(--blue-900); font-size: 1rem; text-transform: capitalize;}
+  .cal-nav {
+    background: white; border: 1.5px solid #d4e2f5; color: var(--blue-700);
+    width: 32px; height: 32px; border-radius: 8px; cursor: pointer;
+    display: grid; place-items: center; font-size: 1.1rem; font-weight: 700;
+    transition: all .15s;
+  }
+  .cal-nav:hover { background: var(--blue-50); border-color: var(--blue-500); }
+  .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+  .cal-dow {
+    text-align: center; font-size: 0.75rem; font-weight: 700;
+    color: var(--muted); padding: 6px 0; text-transform: uppercase;
+  }
+  .cal-day {
+    aspect-ratio: 1/1; display: grid; place-items: center;
+    border-radius: 8px; cursor: pointer; font-size: 0.9rem; font-weight: 500;
+    color: var(--blue-900); background: white; border: 1.5px solid transparent;
+    transition: all .15s;
+  }
+  .cal-day:hover:not(.disabled):not(.selected) { background: var(--blue-50); border-color: var(--blue-300); }
+  .cal-day.other { color: #c4cfdd; background: transparent; cursor: default; }
+  .cal-day.disabled { color: #c4cfdd; background: transparent; cursor: not-allowed; text-decoration: line-through; }
+  .cal-day.today { border-color: var(--blue-500); }
+  .cal-day.selected {
+    background: linear-gradient(135deg, var(--blue-500), var(--blue-700));
+    color: white; border-color: transparent; font-weight: 700;
+    box-shadow: 0 4px 10px rgba(11,95,174,0.3);
+  }
+  .cal-day.has-bookings::after {
+    content: ""; width: 5px; height: 5px; border-radius: 50%;
+    background: var(--blue-500); position: absolute; transform: translateY(14px);
+  }
+  .cal-day { position: relative; }
+  .cal-day.selected.has-bookings::after { background: white; }
+
+  /* SLOTS */
+  .slots { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 10px; min-height: 60px; }
+  .slot {
+    text-align: center; padding: 10px 6px; border-radius: 10px;
+    border: 1.5px solid var(--blue-300); background: white; color: var(--blue-700);
+    cursor: pointer; font-weight: 600; font-size: 0.9rem; transition: all .15s ease;
+  }
+  .slot:hover:not(.unavailable):not(.selected) { background: var(--blue-50); transform: translateY(-2px); }
+  .slot.selected {
+    background: linear-gradient(135deg, var(--blue-500), var(--blue-700));
+    color: white; border-color: transparent; box-shadow: 0 6px 14px rgba(11,95,174,0.3);
+  }
+  .slot.unavailable {
+    background: #f0f3f8; color: #a8b3c4; border-color: #e1e7ef;
+    cursor: not-allowed; text-decoration: line-through;
+  }
+  .empty { grid-column: 1/-1; text-align: center; color: var(--muted); padding: 16px; font-style: italic; font-size: 0.9rem; }
+
+  .message { margin-top: 16px; padding: 12px 16px; border-radius: 10px; font-weight: 500; display: none; }
+  .message.success { display: block; background: #e7fbf0; color: #066b3a; border: 1px solid #b6ecd0; }
+  .message.error { display: block; background: #fdecec; color: #a4231f; border: 1px solid #f5c2c2; }
+
+  /* BOOKINGS LIST PANEL */
+  .bookings-panel {
+    margin-top: 30px; background: var(--white); border-radius: 20px;
+    padding: 32px; box-shadow: var(--shadow); border: 1px solid #e6eef9;
+  }
+  .bookings-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 20px; flex-wrap: wrap; gap: 10px;
+  }
+  .bookings-header h3 { margin: 0; color: var(--blue-900); font-size: 1.3rem; }
+  .badge {
+    background: var(--blue-50); color: var(--blue-700); padding: 4px 12px;
+    border-radius: 999px; font-size: 0.85rem; font-weight: 700;
+  }
+  .clear-btn {
+    background: transparent; border: 1.5px solid #f5c2c2; color: #a4231f;
+    padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 0.85rem;
+    font-weight: 600; font-family: inherit; transition: all .15s;
+  }
+  .clear-btn:hover { background: #fdecec; }
+
+  .booking-list { display: grid; gap: 10px; }
+  .booking-item {
+    display: grid; grid-template-columns: auto 1fr auto auto; gap: 14px;
+    align-items: center; padding: 14px 16px;
+    background: #f9fcff; border: 1px solid #e1ecfa; border-radius: 12px;
+    transition: all .15s;
+  }
+  .booking-item:hover { border-color: var(--blue-300); background: var(--blue-50); }
+  .booking-date {
+    background: linear-gradient(135deg, var(--blue-500), var(--blue-700));
+    color: white; padding: 8px 12px; border-radius: 10px; text-align: center;
+    min-width: 56px; font-weight: 700;
+  }
+  .booking-date .d { font-size: 1.2rem; line-height: 1; }
+  .booking-date .m { font-size: 0.7rem; text-transform: uppercase; opacity: 0.9; }
+  .booking-info .name { font-weight: 700; color: var(--blue-900); }
+  .booking-info .phone { font-size: 0.85rem; color: var(--muted); }
+  .booking-time {
+    background: white; padding: 6px 12px; border-radius: 8px;
+    border: 1.5px solid var(--blue-300); color: var(--blue-700);
+    font-weight: 700; font-size: 0.9rem;
+  }
+  .delete-btn {
+    background: transparent; border: none; color: #a4231f; cursor: pointer;
+    width: 32px; height: 32px; border-radius: 8px; font-size: 1.1rem;
+    transition: background .15s;
+  }
+  .delete-btn:hover { background: #fdecec; }
+  .no-bookings { text-align: center; color: var(--muted); padding: 30px; font-style: italic; }
+
+  /* ABOUT */
+  .about {
+    background: linear-gradient(135deg, var(--blue-700), var(--blue-900));
+    color: white; border-radius: 20px; padding: 50px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: center;
+  }
+  .about h2 { color: white; margin-top: 0; }
+  .about p { color: rgba(255,255,255,0.85); }
+  .stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .stat { background: rgba(255,255,255,0.1); padding: 20px; border-radius: 14px; text-align: center; backdrop-filter: blur(10px);}
+  .stat-num { font-size: 2rem; font-weight: 800; color: white; }
+  .stat-label { font-size: 0.85rem; color: rgba(255,255,255,0.75); }
+
+  footer { text-align: center; padding: 30px 24px; color: var(--muted); border-top: 1px solid #e6eef9; margin-top: 40px; }
+
+  @media (max-width: 800px) {
+    .hero { grid-template-columns: 1fr; padding-top: 40px; }
+    .hero-art { max-width: 320px; margin: 0 auto; }
+    .booking-grid { grid-template-columns: 1fr; }
+    .about { grid-template-columns: 1fr; padding: 30px; }
+    .nav-links { display: none; }
+    .booking-item { grid-template-columns: auto 1fr auto; }
+    .booking-time { grid-column: 2; grid-row: 2; justify-self: start; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="logo"><div class="logo-mark">★</div>StarDentes</div>
+    <div class="nav-links">
+      <a href="#servicos">Serviços</a>
+      <a href="#agendamento">Agendar</a>
+      <a href="#meus-agendamentos">Meus agendamentos</a>
+      <a href="#sobre">Sobre</a>
+    </div>
+    <a href="#agendamento" class="btn btn-primary">Agendar</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div>
+    <h1>Sorrisos que <span>brilham</span> como estrelas</h1>
+    <p>Na StarDentes combinamos tecnologia de ponta e atendimento humanizado para cuidar do seu sorriso em cada detalhe.</p>
+    <div class="hero-cta">
+      <a href="#agendamento" class="btn btn-primary">Agendar agora</a>
+      <a href="#servicos" class="btn btn-ghost">Ver serviços</a>
+    </div>
+  </div>
+  <div class="hero-art"><div class="tooth">🦷</div></div>
+</header>
+
+<section id="servicos">
+  <h2 class="section-title">Nossos Serviços</h2>
+  <p class="section-sub">Cuidado completo para toda a família, com profissionais especializados.</p>
+  <div class="services-grid">
+    <div class="service-card"><div class="service-icon">✨</div><h3>Clareamento</h3><p>Devolva o brilho natural do seu sorriso com tratamentos seguros.</p></div>
+    <div class="service-card"><div class="service-icon">🦷</div><h3>Implantes</h3><p>Soluções definitivas com tecnologia avançada.</p></div>
+    <div class="service-card"><div class="service-icon">😁</div><h3>Ortodontia</h3><p>Aparelhos tradicionais e alinhadores invisíveis.</p></div>
+    <div class="service-card"><div class="service-icon">🪥</div><h3>Limpeza</h3><p>Check-ups e profilaxia para sua saúde bucal.</p></div>
+  </div>
+</section>
+
+<section id="agendamento">
+  <h2 class="section-title">Agende sua Consulta</h2>
+  <p class="section-sub">Escolha um dia útil no calendário e selecione o melhor horário.</p>
+
+  <div class="booking-wrap">
+    <div class="booking-grid">
+      <!-- Calendário -->
+      <div>
+        <div class="panel-label">Escolha a data</div>
+        <div class="calendar">
+          <div class="cal-header">
+            <button class="cal-nav" id="prev-month" aria-label="Mês anterior">‹</button>
+            <div class="cal-title" id="cal-title"></div>
+            <button class="cal-nav" id="next-month" aria-label="Próximo mês">›</button>
+          </div>
+          <div class="cal-grid" id="cal-dow"></div>
+          <div class="cal-grid" id="cal-days" style="margin-top:4px;"></div>
+        </div>
+        <div style="font-size: 0.8rem; color: var(--muted); display: flex; gap: 14px; flex-wrap: wrap;">
+          <span>● <span style="color:var(--blue-700);">Hoje</span></span>
+          <span style="color:#c4cfdd;">● Indisponível (fim de semana / passado)</span>
+        </div>
+      </div>
+
+      <!-- Form + horários -->
+      <div>
+        <div class="field">
+          <label for="patient-name">Nome completo</label>
+          <input type="text" id="patient-name" placeholder="Ex: Maria Silva" />
+        </div>
+        <div class="field">
+          <label for="patient-phone">Telefone</label>
+          <input type="tel" id="patient-phone" placeholder="(00) 00000-0000" />
+        </div>
+
+        <div class="panel-label" style="margin-top: 8px;">Horários — <span id="selected-date-label" style="color: var(--blue-700); font-weight: 700;">selecione uma data</span></div>
+        <div class="slots" id="slots">
+          <div class="empty">Escolha um dia útil no calendário ao lado.</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top: 24px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
+      <button class="btn btn-primary" id="confirm-btn">Confirmar agendamento</button>
+      <small style="color: var(--muted);">Funcionamento: Seg–Sex, 8h às 18h.</small>
+    </div>
+    <div id="message" class="message"></div>
+  </div>
+
+  <!-- Painel de agendamentos visíveis -->
+  <div class="bookings-panel" id="meus-agendamentos">
+    <div class="bookings-header">
+      <div style="display:flex; align-items:center; gap: 10px;">
+        <h3>📅 Agendamentos confirmados</h3>
+        <span class="badge" id="bookings-count">0</span>
+      </div>
+      <button class="clear-btn" id="clear-all-btn">Limpar todos</button>
+    </div>
+    <div class="booking-list" id="bookings-list">
+      <div class="no-bookings">Nenhum agendamento ainda. Faça o primeiro acima!</div>
+    </div>
+  </div>
+</section>
+
+<section id="sobre">
+  <div class="about">
+    <div>
+      <h2>Sobre a StarDentes</h2>
+      <p>Há mais de uma década cuidando do sorriso de famílias. Nossa missão é oferecer odontologia de excelência, com conforto e segurança.</p>
+      <p>📍 Av. das Estrelas, 123<br/>📞 (11) 4002-8922<br/>✉️ contato@stardentes.com</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="stat-num">12+</div><div class="stat-label">Anos</div></div>
+      <div class="stat"><div class="stat-num">8k+</div><div class="stat-label">Sorrisos</div></div>
+      <div class="stat"><div class="stat-num">15</div><div class="stat-label">Especialistas</div></div>
+      <div class="stat"><div class="stat-num">4.9★</div><div class="stat-label">Avaliação</div></div>
+    </div>
+  </div>
+</section>
+
+<footer>© 2026 StarDentes · Todos os direitos reservados</footer>
+
+<script>
+  // ===== Storage =====
+  const STORAGE_KEY = 'stardentes_bookings_v2';
+  // bookings = array of { date: 'YYYY-MM-DD', time: 'HH:00', name, phone, id }
+  const loadBookings = () => {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }
+    catch { return []; }
+  };
+  const saveBookings = (arr) => localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
+  let bookings = loadBookings();
+
+  // ===== State =====
+  const today = new Date(); today.setHours(0,0,0,0);
+  const todayStr = toDateStr(today);
+  let viewYear = today.getFullYear();
+  let viewMonth = today.getMonth();
+  let selectedDate = null; // 'YYYY-MM-DD'
+  let selectedTime = null;
+
+  // ===== Helpers =====
+  const MONTHS_PT = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+  const MONTHS_PT_SHORT = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+  const DOW_PT = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+
+  function pad(n){ return String(n).padStart(2,'0'); }
+  function toDateStr(d){ return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`; }
+  function parseDateStr(s){ const [y,m,d] = s.split('-').map(Number); return new Date(y, m-1, d); }
+  function isWeekday(d){ const dow = d.getDay(); return dow >= 1 && dow <= 5; }
+  function getHours(){ const a=[]; for(let h=8; h<18; h++) a.push(`${pad(h)}:00`); return a; }
+  function bookingsFor(dateStr){ return bookings.filter(b => b.date === dateStr); }
+
+  // ===== DOM =====
+  const calTitle = document.getElementById('cal-title');
+  const calDow = document.getElementById('cal-dow');
+  const calDays = document.getElementById('cal-days');
+  const slotsEl = document.getElementById('slots');
+  const selectedDateLabel = document.getElementById('selected-date-label');
+  const messageEl = document.getElementById('message');
+  const bookingsListEl = document.getElementById('bookings-list');
+  const bookingsCountEl = document.getElementById('bookings-count');
+
+  // Day-of-week header (once)
+  DOW_PT.forEach(d => {
+    const el = document.createElement('div');
+    el.className = 'cal-dow';
+    el.textContent = d;
+    calDow.appendChild(el);
+  });
+
+  function showMessage(text, type){ messageEl.textContent = text; messageEl.className = 'message ' + type; }
+  function clearMessage(){ messageEl.className = 'message'; messageEl.textContent = ''; }
+
+  // ===== Calendar =====
+  function renderCalendar() {
+    calTitle.textContent = `${MONTHS_PT[viewMonth]} ${viewYear}`;
+    calDays.innerHTML = '';
+
+    const firstDay = new Date(viewYear, viewMonth, 1);
+    const startDow = firstDay.getDay();
+    const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
+
+    // leading blanks
+    for (let i = 0; i < startDow; i++) {
+      const el = document.createElement('div');
+      el.className = 'cal-day other';
+      calDays.appendChild(el);
+    }
+
+    for (let d = 1; d <= daysInMonth; d++) {
+      const dt = new Date(viewYear, viewMonth, d);
+      const ds = toDateStr(dt);
+      const el = document.createElement('div');
+      el.className = 'cal-day';
+      el.textContent = d;
+
+      const isPast = dt < today;
+      const isWknd = !isWeekday(dt);
+
+      if (isPast || isWknd) {
+        el.classList.add('disabled');
+      } else {
+        el.addEventListener('click', () => selectDate(ds));
+      }
+      if (ds === todayStr) el.classList.add('today');
+      if (ds === selectedDate) el.classList.add('selected');
+      if (bookingsFor(ds).length > 0) el.classList.add('has-bookings');
+
+      calDays.appendChild(el);
+    }
+  }
+
+  function selectDate(ds) {
+    selectedDate = ds;
+    selectedTime = null;
+    clearMessage();
+    const dt = parseDateStr(ds);
+    selectedDateLabel.textContent = `${pad(dt.getDate())}/${pad(dt.getMonth()+1)}/${dt.getFullYear()}`;
+    renderCalendar();
+    renderSlots();
+  }
+
+  document.getElementById('prev-month').addEventListener('click', () => {
+    viewMonth--; if (viewMonth < 0) { viewMonth = 11; viewYear--; }
+    renderCalendar();
+  });
+  document.getElementById('next-month').addEventListener('click', () => {
+    viewMonth++; if (viewMonth > 11) { viewMonth = 0; viewYear++; }
+    renderCalendar();
+  });
+
+  // ===== Slots =====
+  function renderSlots() {
+    slotsEl.innerHTML = '';
+    if (!selectedDate) {
+      slotsEl.innerHTML = '<div class="empty">Escolha um dia útil no calendário ao lado.</div>';
+      return;
+    }
+    const isToday = selectedDate === todayStr;
+    const now = new Date();
+    const booked = new Set(bookingsFor(selectedDate).map(b => b.time));
+
+    getHours().forEach(time => {
+      const el = document.createElement('div');
+      el.className = 'slot';
+      el.textContent = time;
+      const hourNum = parseInt(time, 10);
+      const isPast = isToday && hourNum <= now.getHours();
+      const isBooked = booked.has(time);
+      if (isPast || isBooked) {
+        el.classList.add('unavailable');
+        el.title = isBooked ? 'Reservado' : 'Já passou';
+      } else {
+        el.addEventListener('click', () => {
+          document.querySelectorAll('.slot.selected').forEach(s => s.classList.remove('selected'));
+          el.classList.add('selected');
+          selectedTime = time;
+          clearMessage();
+        });
+      }
+      slotsEl.appendChild(el);
+    });
+  }
+
+  // ===== Bookings panel =====
+  function renderBookingsList() {
+    bookingsCountEl.textContent = bookings.length;
+    if (bookings.length === 0) {
+      bookingsListEl.innerHTML = '<div class="no-bookings">Nenhum agendamento ainda. Faça o primeiro acima!</div>';
+      return;
+    }
+    const sorted = [...bookings].sort((a,b) => (a.date+a.time).localeCompare(b.date+b.time));
+    bookingsListEl.innerHTML = sorted.map(b => {
+      const dt = parseDateStr(b.date);
+      return `
+        <div class="booking-item">
+          <div class="booking-date">
+            <div class="d">${pad(dt.getDate())}</div>
+            <div class="m">${MONTHS_PT_SHORT[dt.getMonth()]}</div>
+          </div>
+          <div class="booking-info">
+            <div class="name">${escapeHtml(b.name)}</div>
+            <div class="phone">${escapeHtml(b.phone)}</div>
+          </div>
+          <div class="booking-time">${b.time}</div>
+          <button class="delete-btn" data-id="${b.id}" title="Cancelar agendamento">✕</button>
+        </div>
+      `;
+    }).join('');
+
+    bookingsListEl.querySelectorAll('.delete-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-id');
+        if (!confirm('Cancelar este agendamento?')) return;
+        bookings = bookings.filter(b => b.id !== id);
+        saveBookings(bookings);
+        renderBookingsList();
+        renderCalendar();
+        if (selectedDate) renderSlots();
+      });
+    });
+  }
+
+  function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+  // ===== Confirm =====
+  document.getElementById('confirm-btn').addEventListener('click', () => {
+    const name = document.getElementById('patient-name').value.trim();
+    const phone = document.getElementById('patient-phone').value.trim();
+    if (!name) return showMessage('Por favor, informe seu nome.', 'error');
+    if (!phone) return showMessage('Por favor, informe seu telefone.', 'error');
+    if (!selectedDate) return showMessage('Selecione uma data no calendário.', 'error');
+    if (!selectedTime) return showMessage('Selecione um horário disponível.', 'error');
+
+    if (bookingsFor(selectedDate).some(b => b.time === selectedTime)) {
+      showMessage('Este horário acabou de ser reservado. Escolha outro.', 'error');
+      renderSlots();
+      return;
+    }
+
+    const id = Date.now().toString(36) + Math.random().toString(36).slice(2,7);
+    bookings.push({ id, date: selectedDate, time: selectedTime, name, phone });
+    saveBookings(bookings);
+
+    const dt = parseDateStr(selectedDate);
+    showMessage(`✓ Agendamento confirmado para ${pad(dt.getDate())}/${pad(dt.getMonth()+1)}/${dt.getFullYear()} às ${selectedTime}, ${name.split(' ')[0]}!`, 'success');
+
+    selectedTime = null;
+    document.getElementById('patient-name').value = '';
+    document.getElementById('patient-phone').value = '';
+    renderSlots();
+    renderCalendar();
+    renderBookingsList();
+  });
+
+  // ===== Clear all =====
+  document.getElementById('clear-all-btn').addEventListener('click', () => {
+    if (bookings.length === 0) return;
+    if (!confirm('Tem certeza que deseja remover todos os agendamentos?')) return;
+    bookings = [];
+    saveBookings(bookings);
+    renderBookingsList();
+    renderCalendar();
+    if (selectedDate) renderSlots();
+  });
+
+  // ===== Init =====
+  renderCalendar();
+  renderBookingsList();
+</script>
+</body>
+</html>
